@@ -1,0 +1,21 @@
+{
+    "name": "grace/eloquent",
+    "require": {
+        "illuminate/database": "^7.9",
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "description":"",
+    "authors": [
+        {
+            "name": "TJ FAITH",
+            "email": "tjbenbiz@gmail.oom"
+        }
+    ],
+    "autoload": {
+        "classmap": 
+        [
+            "api/controllers",
+            "api/models"
+        ]
+    }
+}
