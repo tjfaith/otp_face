@@ -2,7 +2,7 @@
     "name": "grace/eloquent",
     "require": {
         "illuminate/database": "^7.9",
-        "phpmailer/phpmailer": "^6.1"
+        "phpmailer/phpmailer": "^6.5"
     },
     "description":"",
     "authors": [

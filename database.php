@@ -18,9 +18,15 @@ use Illuminate\Database\Capsule\Manager as Capsule;
     
    //   "driver" => "mysql",
    //  "host" =>"127.0.0.1",
-   //  "database" => "otp",
-   //  "username" => "user_otp",
-   //  "password" => ""
+   //  "database" => "omedimc1_tfa",
+   //  "username" => "omedimc1_tfa_user",
+   //  "password" => "twofactorauth22"
+
+  //  "driver" => "mysql",
+  //  "host" =>"127.0.0.1",
+  //  "database" => "edupluss_tfa",
+  //  "username" => "edupluss_user",
+  //  "password" => "eduplus123456789_"
  ]);
 //Make this Capsule instance available globally.
  $capsule->setAsGlobal();

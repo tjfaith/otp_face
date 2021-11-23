@@ -152,12 +152,14 @@ class ComposerStaticInit4a64153571bf5ac98430785f597ffc34
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Kairos' => __DIR__ . '/../..' . '/api/controllers/kairos_face_php/Kairos.php',
         'Models\\users' => __DIR__ . '/../..' . '/api/models/users.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'controller' => __DIR__ . '/../..' . '/api/controllers/controller.php',
+        'email_config' => __DIR__ . '/../..' . '/api/controllers/email_config.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
