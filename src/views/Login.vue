@@ -3,7 +3,7 @@
     <form
       form
       @submit.prevent="login"
-      class="bg-white shadow-md rounded px-8 w-50 pt-6 pb-8"
+      class="bg-white shadow-md rounded px-8 md:w-50 mx-4  pt-6 pb-8"
     >
       <div class="m-auto text-muted w-100 pb-2">Login</div>
       <div class="mb-4">
