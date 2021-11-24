@@ -5,7 +5,9 @@ import loader from "vue-ui-preloader";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Snackbar from 'vuejs-snackbar';
+import VueSession from 'vue-session';
 
+Vue.use(VueSession)
 Vue.use(loader);
 Vue.use(VueAxios, axios)
 
@@ -29,12 +31,14 @@ Vue.prototype.$hostname = "http://www.omedim.com/2fa/api/";
 
 // import components ===============
 import header from '@/components/header.vue'
+import FaceEnroll from '@/components/faceEnrollment.vue'
 
 import './assets/tailwind.css'
 
 // use compoenent ------------------------------------
 Vue.component('snackbar', Snackbar);
 Vue.component('app-header',header)
+Vue.component('face-enroll', FaceEnroll)
 new Vue({
   router,
   render: h => h(App) 

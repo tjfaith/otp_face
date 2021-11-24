@@ -3,10 +3,15 @@ import VueRouter from "vue-router";
 import Layout from "@/views/layout.vue";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
-import Dashboard from "@/views/dashboard.vue";
 
+// Admin page
+import Dashboard from "@/views/dashboard_layout.vue";
+import Overview from "@/views/overview.vue";
+
+// General page
 import Register from "@/views/Register.vue";
 import RegisterPhone from "@/views/phone_registration.vue";
+import RegisterFace from "@/views/face_registration.vue";
 
 Vue.use(VueRouter);
 
@@ -35,13 +40,25 @@ const routes = [
         name: "RegisterPhone",
         component: RegisterPhone,
       },
+      {
+        path: "/RegisterFace",
+        name: "RegisterFace",
+        component: RegisterFace,
+      },
     ],
   },
 
-  {
+  { 
     path: "/dashboard",
-    name: "Dashboard",
     component: Dashboard,
+    children: [
+      {
+        path: "/dashboard",
+        name:"overview",
+        component: Overview,
+      },
+      
+    ]
   },
   {
     path: "/about",

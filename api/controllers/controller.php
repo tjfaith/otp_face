@@ -4,6 +4,9 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 use Models\users;
 include "email_config.php";
+include_once "kairos_face_php/Kairos.php";
+
+$Kairos = new Kairos('b07139dc','193ebcef9e50706b46cc4b8972652eed' );
 class controller extends email_config{
     private $otp;
      // Generate id
@@ -92,15 +95,26 @@ class controller extends email_config{
     }
 
     public function verify_email($data){
+        $userEmail;
         $verifyOTP = users::where('otp',$data['otp'])->count();
         if($verifyOTP == 1){
+        $userEmail = users::select('email')->where('otp',$data['otp'])->get();
             $update_email_verification = users::where('otp',$data['otp'])->update([
                 'verify_email' =>  1,
             ]);
         }
-        $this->responseMessage(array('response'=>$verifyOTP));
+        $this->responseMessage(array('response'=>$verifyOTP, 'userEmail'=>$userEmail));
     }
     
+    public function save_image($data){
+        $saveUserImage = users::where('email',$data['email'])->update([
+            'userImage' =>  $data['webcamImage'],
+        ]);
+        if( $saveUserImage){
+            json_encode($this->responseMessage(array('response'=>'saved')));
+        }
+    }
+
     public function checkUsername($data){
         $userName = users::where('name', $data['username'])->count();
         $this->responseMessage(array('response'=> $userName));

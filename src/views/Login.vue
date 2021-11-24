@@ -1,7 +1,11 @@
 <template>
-<div class="grid place-items-center h-screen">
-   <form  form @submit.prevent="login" class="bg-white shadow-md rounded px-8 w-50 pt-6 pb-8">
-      <div class="m-auto text-muted w-100 pb-2 " >Login</div>
+  <div class="grid place-items-center h-screen">
+    <form
+      form
+      @submit.prevent="login"
+      class="bg-white shadow-md rounded px-8 w-50 pt-6 pb-8"
+    >
+      <div class="m-auto text-muted w-100 pb-2">Login</div>
       <div class="mb-4">
         <label
           class="block text-gray-700 text-sm font-bold mb-2"
@@ -10,8 +14,8 @@
           Username
         </label>
         <input
-        v-model="loginData.username"
-        required
+          v-model="loginData.username"
+          required
           class="
             shadow-sm
             appearance-none
@@ -38,9 +42,8 @@
           >
           </label>
           <input
-        v-model="loginData.password"
-        required
-        minlength="6"
+            v-model="loginData.password"
+            required
             class="
               shadow-sm
               appearance-none
@@ -59,17 +62,15 @@
             placeholder="******************"
           />
         </div>
-            <span class="text-red-500">{{login_response}}</span> 
-
+        <span class="text-red-500">{{ login_response }}</span>
       </div>
-	<div class="text-center w-full"><b>OR</b></div>
 
       <div class="flex items-center justify-between">
         <input
-        type="submit"
-        value="Login"
+          type="submit"
+          value="Login"
           class="
-          disabled:opacity-50
+            disabled:opacity-50
             bg-blue-500
             hover:bg-blue-700
             text-white
@@ -77,58 +78,70 @@
             py-2
             px-4
             rounded
-            
           "
-        >
-          
-          <loader v-if="showLoading" object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="dots"></loader>
-     
+        />
+
+        <loader
+          v-if="showLoading"
+          object="#ff9633"
+          color1="#ffffff"
+          color2="#17fd3d"
+          size="5"
+          speed="2"
+          bg="#343a40"
+          objectbg="#999793"
+          opacity="80"
+          name="dots"
+        ></loader>
+      </div>
+      <div class="text-center w-full"><b>OR</b></div>
+      <div class="text-center  ">
+        <img class="m-auto w-25 cursor-pointer hover:shadow-lg  rounded" src="@/assets/images/face.png" />
+        <h3 class="text-muted"><b>USE FACE AUTHENTICATION</b></h3>
       </div>
     </form>
-	</div>
+  </div>
 </template>
 
 <script>
-
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
-	return {
-		login_response:'',
-		showLoading:false,
-		loginData:{
-			username:'',
-			password:'',
-		}
-	}
+    return {
+      login_response: "",
+      showLoading: false,
+      loginData: {
+        username: "",
+        password: "",
+      },
+    };
   },
-  methods:{
-	login(){
-		this.showLoading = true;
+  methods: {
+    login() {
+      this.showLoading = true;
       this.axios
         .post(this.$hostname + "api.php?action=login", this.loginData)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           this.showLoading = false;
-        if(response.data.response === 1){
-			this.$router.push('/dashboard')
-		}else if(response.data.response === 0){
-			this.login_response ="Record not found or incorrect username and password"
-		}
+          if (response.data.response === 1) {
+            this.$router.push("/dashboard");
+          } else if (response.data.response === 0) {
+            this.login_response =
+              "Record not found or incorrect username and password";
+          }
         })
         .catch((error) => {
           alert(error);
           this.showLoading = false;
         });
-	}
-  }
-  
-}
+    },
+  },
+};
 </script>
 
 <style  scoped>
-body{
-    background: url("../assets/images/5copy.jpg") no-repeat;
-
+body {
+  background: url("../assets/images/5copy.jpg") no-repeat;
 }
 </style>

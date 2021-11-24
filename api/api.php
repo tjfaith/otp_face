@@ -36,7 +36,35 @@ $controllerQuery = new controller();
     // $query = json_decode(file_get_contents('php://input'),true);
     // echo json_encode ($query);
    echo $Kairos->viewGalleries();
+}
 
+if($action=='detect_image'){
+  $query = json_decode(file_get_contents('php://input'),true);
+  $image      = $query['image'];
+$argumentArray =  array(
+    "image" => $image
+);
+//  echo $Kairos->detect($argumentArray);
+echo $Kairos->detect($argumentArray);
+}
+
+if($action == 'enroll_image'){
+  $query = json_decode(file_get_contents('php://input'),true);
+
+  // ENROLL IMAGE
+  $image      = $query['webcamImage'];
+  $subject_id = $query['email'];
+  $gallery_name = 'yabatech';
+  $argumentArray =  array(
+      "image" => $image,
+      "subject_id" => $subject_id,
+      "gallery_name" => $gallery_name
+  );
+  echo $Kairos->enroll($argumentArray);
+}
+if ($action == 'save_image'){
+  $query = json_decode(file_get_contents('php://input'),true);
+  return json_encode($controllerQuery->save_image($query));
 }
 
 if ($action == 'verify_email'){
