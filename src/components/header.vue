@@ -14,7 +14,7 @@
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto lg:bg-transparent md:bg-white p-3">
+      <b-navbar-nav class="ml-auto lg:bg-opacity-0 bg-white p-3">
         <b-nav-item style="color:#2E1C88!important; " href="#">About</b-nav-item>
         <b-nav-item class="text-tfa_primary" href="#">Credit</b-nav-item>
         <b-nav-item class="text-tfa_primary" ><router-link to="/login">Login</router-link></b-nav-item>
