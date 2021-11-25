@@ -31,9 +31,9 @@ $controllerQuery = new controller();
     return json_encode($controllerQuery->login($query));
 }
 
-if($action == 'sendEmailVerification'){
+if($action == 'resendOtp'){
   $query = json_decode(file_get_contents('php://input'),true);
-  return json_encode($controllerQuery->sendEmailVerification($query));
+  return json_encode($controllerQuery->resendOtp($query));
 }
 // KARIOS API ===================================================================================== START
 

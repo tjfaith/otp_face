@@ -67,8 +67,17 @@ class controller extends email_config{
         }
        $this->responseMessage(array('response'=>$respons, 'userData'=>$userData));
     }
+    public function resendOtp($data){
+        $this->otp = $this->generateId(10);
+        $updateOTP = users::where('email',$data['email'])->update([
+            'otp'  => $this->otp,
+        ]);
+        if($updateOTP ){
+            $this->sendEmailVerification($data);
+        }
+    }
 
-    public function sendEmailVerification ($data){
+    private function sendEmailVerification ($data){
             
             //Sender
              $this->mail->setFrom('2faauthsystem@gmail.com', '2FA Auth System');

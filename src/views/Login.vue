@@ -162,7 +162,7 @@ export default {
       this.showLoading = true;
       console.log(this.userData)
       this.axios
-        .post(this.$hostname + "api.php?action=sendEmailVerification", this.userData)
+        .post(this.$hostname + "api.php?action=resendOtp", this.userData)
         .then((response) => {
           this.showLoading = false;
           if (response.data.returnMsg == 1){
