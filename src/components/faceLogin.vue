@@ -242,14 +242,13 @@ export default {
               this.axios
                 .post(this.$hostname + "api.php?action=check_image", userData)
                 .then((response) => {
-                  this.scaningImage = false;
-                  this.toggleCamera();
-                  if (
-                    response.data.images[0].transaction.message ==
-                    "no match found"
-                  ) {
-                     this.scaningImage = false;
-                    this.toggleCamera()
+                  console.log(response)
+                  // this.scaningImage = false;
+                  // this.toggleCamera();
+                  if ( response.data.images[0].transaction.message == "no match found" ) 
+                  {
+                  //  this.scaningImage = false;
+                   this.restCamera();
                     this.errorMessage =
                       "Data not found, Sign up to enroll Image";
 
@@ -266,7 +265,6 @@ export default {
                   }
                 })
                 .catch((error) => {
-                  this.scaningImage = false;
                   this.toggleCamera();
                   alert(error);
                 });
@@ -281,7 +279,6 @@ export default {
           }
         })
         .catch((error) => {
-          this.scaningImage = false;
           this.toggleCamera();
           alert(error);
         });

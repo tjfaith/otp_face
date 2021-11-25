@@ -40,6 +40,16 @@ $controllerQuery = new controller();
    echo $Kairos->viewGalleries();
 }
 
+if($action=='view_all_sbubject'){
+  $query = json_decode(file_get_contents('php://input'),true);
+
+$gallery_name = 'yabatech';
+$argumentArray =  array(
+    "gallery_name" => $gallery_name 
+);
+echo $Kairos->viewSubjectsInGallery($argumentArray);
+}
+
 if($action == 'remove_image_subject'){
 
   $query = json_decode(file_get_contents('php://input'),true);
