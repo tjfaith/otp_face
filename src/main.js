@@ -32,6 +32,7 @@ Vue.prototype.$hostname = "http://www.omedim.com/2fa/api/";
 // import components ===============
 import header from '@/components/header.vue'
 import FaceEnroll from '@/components/faceEnrollment.vue'
+import FaceLogin from '@/components/faceLogin.vue'
 
 import './assets/tailwind.css'
 
@@ -39,6 +40,7 @@ import './assets/tailwind.css'
 Vue.component('snackbar', Snackbar);
 Vue.component('app-header',header)
 Vue.component('face-enroll', FaceEnroll)
+Vue.component('face-login', FaceLogin)
 new Vue({
   router,
   render: h => h(App) 

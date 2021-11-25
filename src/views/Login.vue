@@ -1,9 +1,11 @@
 <template>
   <div class="grid place-items-center h-screen">
+      <face-login :showing="showFaceModal" @close="showFaceModal=false"/>
+
     <form
       form
       @submit.prevent="login"
-      class="bg-white shadow-md rounded px-8 md:w-50 mx-4  pt-6 pb-8"
+      class="bg-white shadow-md rounded mt-24 px-8 md:w-50 mx-4  pt-6 pb-8"
     >
       <div class="m-auto text-muted w-100 pb-2">Login</div>
       <div class="mb-4">
@@ -94,9 +96,9 @@
           name="dots"
         ></loader>
       </div>
-      <div class="text-center w-full"><b>OR</b></div>
-      <div class="text-center  ">
-        <img class="m-auto w-25 cursor-pointer hover:shadow-lg  rounded" src="@/assets/images/face.png" />
+      <div class="text-center w-full my-3"><b>OR</b></div>
+      <div class="text-center  " @click="showFaceModal = true">
+        <img class="m-auto cursor-pointer w-40 hover:shadow-lg  rounded" style="min-width:100px" src="@/assets/images/face.png" />
         <h3 class="text-muted"><b>USE FACE AUTHENTICATION</b></h3>
       </div>
     </form>
@@ -108,6 +110,7 @@ export default {
   name: "Login",
   data() {
     return {
+      showFaceModal:false,
       login_response: "",
       showLoading: false,
       loginData: {
@@ -137,6 +140,11 @@ export default {
         });
     },
   },
+  created(){
+    this.$on('close', (data) => {
+      console.log(data)
+    })
+  }
 };
 </script>
 

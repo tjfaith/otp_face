@@ -32,10 +32,24 @@ $controllerQuery = new controller();
 
 }
 
+// KARIOS API ===================================================================================== START
+
   if($action=='face_auth'){
     // $query = json_decode(file_get_contents('php://input'),true);
     // echo json_encode ($query);
    echo $Kairos->viewGalleries();
+}
+
+if($action == 'remove_image_subject'){
+
+  $query = json_decode(file_get_contents('php://input'),true);
+ $subject_id = $query['email'];
+$gallery_name = 'yabatech';
+$argumentArray =  array(
+    "subject_id" => $subject_id,
+    "gallery_name" => $gallery_name 
+);
+echo $Kairos->removeSubjectFromGallery($argumentArray);
 }
 
 if($action=='detect_image'){
@@ -48,8 +62,23 @@ $argumentArray =  array(
 echo $Kairos->detect($argumentArray);
 }
 
+if ($action == 'check_image'){
+  $query = json_decode(file_get_contents('php://input'),true);
+
+  // CHECK IF IMAGE EXIST
+  $image      = $query['webcamImage'];
+  $gallery_name = 'yabatech';
+  $argumentArray =  array(
+    "image" => $image,
+    "gallery_name" => $gallery_name
+  );
+ echo $Kairos->recognize($argumentArray);
+}
+
 if($action == 'enroll_image'){
   $query = json_decode(file_get_contents('php://input'),true);
+
+  
 
   // ENROLL IMAGE
   $image      = $query['webcamImage'];
@@ -60,8 +89,15 @@ if($action == 'enroll_image'){
       "subject_id" => $subject_id,
       "gallery_name" => $gallery_name
   );
-  echo $Kairos->enroll($argumentArray);
+  $kair = $Kairos->enroll($argumentArray);
+  $local = $controllerQuery->save_image($query);
+  $response = json_decode($kair, true);
+  $imageData = array_push ($response, $local);
+  return json_encode($imageData);
+
 }
+
+// KARIOS API ========================================================================END
 if ($action == 'save_image'){
   $query = json_decode(file_get_contents('php://input'),true);
   return json_encode($controllerQuery->save_image($query));

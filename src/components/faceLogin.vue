@@ -1,6 +1,21 @@
 <template>
-  <div class="grid place-items-center h-screen  ">
-    <div id="app" class="web-camera-container">
+  <!-- @click.self="close" -->
+
+  <Transition name="fade">
+    <div
+      v-if="showing"
+      class="fixed inset-0   flex  items-center justify-center bg-semi-75"
+    >
+      <div class="relative mx-9 mt-24  bg-white shadow-lg rounded-lg p-8">
+        <button
+          aria-label="close"
+          class="absolute top-0 right-0 text-xl text-gray-500 my-2 mx-4"
+          @click.prevent="close"
+        >
+          ×
+        </button>
+        <!-- START OF CONTENT -->
+        <div  class="web-camera-container">
       <div class="camera-button">
         <button
           v-if="!isCameraOpen"
@@ -14,7 +29,7 @@
         </button>
       </div>
 
-      <div v-show="isCameraOpen && isLoading" class="camera-loading">
+      <div v-show="isCameraOpen && isLoading" class="m-auto grid place-items-center camera-loading">
         <ul class="loader-circle">
           <li></li>
           <li></li>
@@ -81,14 +96,15 @@
         ></loader>
       </div>
     </div>
-  </div>
+        <!-- END OF CONTENT -->
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script>
 export default {
-  name: "Camera",
-  components: {},
-  data() {
+  data(){
     return {
       canvas: "",
       errorMessage: "",
@@ -99,9 +115,38 @@ export default {
       isShotPhoto: false,
       isLoading: false,
       link: "#",
-    };
+    }
+  },
+  props: {
+    showing: {
+      required: true,
+      type: Boolean,
+    },
+  },
+  watch: {
+    showing(value) {
+      console.log(value);
+      if (value) {
+        return document.querySelector("body").classList.add("overflow-hidden");
+      }
+
+      document.querySelector("body").classList.remove("overflow-hidden");
+    },
   },
   methods: {
+    close() {
+        this.restCamera();
+      this.$emit("close");
+    },
+    restCamera(){
+      this.isCameraOpen = false;
+        this.isPhotoTaken = false;
+        this.isShotPhoto = false;
+        this.stopCameraStream();
+         this.errorMessage = "";
+         this.message_text_color= "text-red-500"
+         this.scaningImage = false;
+    },
     toggleCamera() {
       if (this.isCameraOpen) {
         this.isCameraOpen = false;
@@ -183,7 +228,6 @@ export default {
             if (Object.keys(response.data.images).length == 1) {
               // Enroll Image
               let userData = {
-                email: this.$session.get("user_email"),
                 webcamImage: this.canvas,
               };
 
@@ -197,36 +241,18 @@ export default {
                     response.data.images[0].transaction.message ==
                     "no match found"
                   ) {
-                    // ENROLL IMAGE
-                    this.axios
-                      .post(
-                        this.$hostname + "api.php?action=enroll_image",
-                        userData
-                      )
-                      .then((response) => {
-                        if (response.data.response == "saved") {
-                          this.message_text_color = "text-green-500";
-                          this.errorMessage =
-                            "Image Enrollment was successful. Proceed to Login";
-                          this.scaningImage = false;
-                          this.toggleCamera();
-                          setTimeout(() => {
-                            this.$router.push("/login");
-                          }, 3500);
-                        }
-                      })
-                      .catch((error) => {
-                        this.scaningImage = false;
-                        this.toggleCamera();
-                        alert(error);
-                      });
-                  } else if (
-                    response.data.images[0].transaction.status == "success"
-                  ) {
-                    this.scaningImage = false;
-                    // this.toggleCamera()
+                     this.scaningImage = false;
+                    this.toggleCamera()
                     this.errorMessage =
-                      "Ops! user Image found, Login instead, or Open Camera to re scan image";
+                      "Data not found, Sign up to enroll Image";
+
+                  } else if (  response.data.images[0].transaction.status == "success" ) {
+                    this.restCamera();
+                    this.isLoading = true
+                     setTimeout(() => {
+                        this.$router.push('/dashboard');
+                      }, 3500);
+                    
                   }
                 })
                 .catch((error) => {
@@ -251,19 +277,25 @@ export default {
         });
     },
   },
-  mounted() {
-    this.isCameraOpen = true;
-    this.createCameraElement();
-  },
 };
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* STYLE FOR WEBCAM */
 .camera-container {
   display: block;
   position: relative;
-  width: 350px;
-  height: 350px;
+  width: 100%;
+  height:100%;
   border-radius: 50%;
   -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
 }
@@ -274,25 +306,22 @@ export default {
   object-fit: initial;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-}
+
 .errorMessage {
   text-transform: uppercase;
   font-weight: bolder;
   text-align: center;
 }
 .web-camera-container {
-  margin-top: 2rem;
+  /* margin-top: 2rem;
   margin-bottom: 2rem;
-  padding: 2rem;
+  padding: 2rem; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  width: 500px;
+  /* width: 500px; */
 }
 .web-camera-container .camera-button {
   margin-bottom: 2rem;
@@ -311,8 +340,8 @@ body {
   margin: 1rem 0;
 }
 .web-camera-container .camera-shoot button {
-  height: 60px;
-  width: 60px;
+  /* height: 60px; */
+  /* width: 60px; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -338,16 +367,18 @@ body {
   margin: 0;
 }
 .web-camera-container .camera-loading .loader-circle {
-  display: block;
+
+  display: flex;
+  justify-content: center;
   height: 14px;
-  margin: 0 auto;
-  top: 50%;
-  left: 100%;
+  /* margin: 0 auto; */
+  /* top: 50%;
+  left: 50%;
   transform: translateY(-50%);
-  transform: translateX(-50%);
-  position: absolute;
+  transform: translateX(-50%); */
+  /* position: absolute;
   width: 100%;
-  padding: 0;
+  padding: 0; */
 }
 .web-camera-container .camera-loading .loader-circle li {
   display: block;
