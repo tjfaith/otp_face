@@ -28,7 +28,7 @@ class controller extends email_config{
         $this->otp = $this->generateId(10);
        $reg = users::insert([
             'user_id'           =>  $this->generateId(2),
-            'name'             =>  strtolower($data['username']),
+            'username'             =>  strtolower($data['username']),
             'password'          => password_hash($data['password'], PASSWORD_BCRYPT),
             'phone'            => '',
             'email'             => $data['email'],
@@ -43,14 +43,17 @@ class controller extends email_config{
 
     public function login($data){
         $respons = null;
-       $userData = users::where('name', strtolower($data['username']))->orWhere('email',$data['username'])->get();
+       $userData = users::where('username', strtolower($data['username']))->orWhere('email',$data['username'])->get();
        
         if (!count($userData)) {
             // $html_doc->title = "testtitle";
             $respons=0; 
         }else{
             foreach ($userData as $key => $value) {
-                $hashed_password = $value['password'];            
+                if ($value['verify_email'] == 0){
+                    $respons=2;
+                }else{
+                    $hashed_password = $value['password'];            
     
                 if(password_verify($data['password'], $hashed_password)) {
                     $respons=1;
@@ -58,12 +61,14 @@ class controller extends email_config{
                     $respons=0;
                    
                 }
+                }
+                
             }
         }
        $this->responseMessage(array('response'=>$respons, 'userData'=>$userData));
     }
 
-    private function sendEmailVerification ($data){
+    public function sendEmailVerification ($data){
             
             //Sender
              $this->mail->setFrom('2faauthsystem@gmail.com', '2FA Auth System');
@@ -123,7 +128,7 @@ class controller extends email_config{
     }
 
     public function checkUsername($data){
-        $userName = users::where('name', $data['username'])->count();
+        $userName = users::where('username', $data['username'])->count();
         $this->responseMessage(array('response'=> $userName));
 
     }

@@ -8,7 +8,7 @@
     </div>
     <div class="row connect m-2 d-flex flex-wrap">
       <div class="col-md-7 m-3">
-        <h1 class="text-5xl">Hello {{userData[0].name.toUpperCase()}}!</h1>
+        <h1 class="text-5xl">Hello {{userData[0].username.toUpperCase()}}!</h1>
         <p class="text-3xl">Welcome to your Two Factore Secured Administrative Portal</p>
         
       </div>
@@ -18,6 +18,25 @@
     </div>
 
     <!-- BOTTOM ROW =========================================================== -->
+    <div class="row mt-4" v-if="userData[0].userImage == ''">
+      <!-- popular course -->
+      <div class="col-lg-12 col-md-12 col-sm-12 my-2">
+        <div class="p-4 popular_courses">
+          <router-link to="/RegisterFace">
+          <div
+            
+            class="sub_card mb-3 p-4 bg-white d-flex shadow-lg flex-row"
+            
+          >
+          <h1 class="text-red-500">Oops! No face found, Enroll  by clicking here</h1>
+            
+            
+          </div>
+          </router-link>
+        </div>
+      </div>
+    </div>
+
     <div class="row mt-4">
       <!-- popular course -->
       <div class="col-lg-12 col-md-12 col-sm-12 my-2">
@@ -26,9 +45,8 @@
             class="sub_card mb-3 p-4 bg-white d-flex flex-row"
             
           >
-          <h1>Enroll New User</h1>
-            
-            
+          <!-- <h1>Your information from your facial look</h1><br> -->
+            {{this.$session.get('facial_details').images[0].transaction}}
           </div>
         </div>
       </div>

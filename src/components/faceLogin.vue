@@ -242,7 +242,7 @@ export default {
               this.axios
                 .post(this.$hostname + "api.php?action=check_image", userData)
                 .then((response) => {
-                  console.log(response)
+                  
                   // this.scaningImage = false;
                   // this.toggleCamera();
                   if ( response.data.images[0].transaction.message == "no match found" ) 
@@ -257,6 +257,7 @@ export default {
                     this.isLoading = true
                     this.$session.start()
                     this.$session.set('user_email', response.data.images[0].transaction.subject_id)
+                    this.$session.set('facial_details', response.data);
                     this.$refs.snackbar.info('Login successful');
                     //  setTimeout(() => {
                         this.$router.push('/dashboard');

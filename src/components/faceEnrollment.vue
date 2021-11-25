@@ -289,8 +289,8 @@ export default {
 .camera-container {
   display: block;
   position: relative;
-  width: 350px;
-  height: 350px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
 }

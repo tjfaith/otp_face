@@ -29,9 +29,12 @@ $controllerQuery = new controller();
   if($action=='login'){
     $query = json_decode(file_get_contents('php://input'),true);
     return json_encode($controllerQuery->login($query));
-
 }
 
+if($action == 'sendEmailVerification'){
+  $query = json_decode(file_get_contents('php://input'),true);
+  return json_encode($controllerQuery->sendEmailVerification($query));
+}
 // KARIOS API ===================================================================================== START
 
   if($action=='face_auth'){

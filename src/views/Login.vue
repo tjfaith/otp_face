@@ -1,5 +1,6 @@
 <template>
   <div class="grid place-items-center h-screen">
+    <snackbar baseSize="5rem" ref="snackbar" :holdTime="5000" position="top-center"/>
       <face-login :showing="showFaceModal" @close="showFaceModal=false"/>
 
     <form
@@ -33,6 +34,7 @@
           id="username"
           type="text"
           placeholder="Username"
+          @keyup="resendEmail = false, login_response = ''"
         />
       </div>
 
@@ -65,6 +67,14 @@
           />
         </div>
         <span class="text-red-500">{{ login_response }}</span>
+       <div class=" bg-red-500
+            hover:bg-red-700
+            text-white
+            font-bold
+            py-2
+            px-4
+            cursor-pointer
+            rounded" @click="resendEmailLink()" v-if="resendEmail">Resend Verification</div>
       </div>
 
       <div class="flex items-center justify-between">
@@ -102,6 +112,7 @@
         <h3 class="text-muted"><b>USE FACE AUTHENTICATION</b></h3>
       </div>
     </form>
+     
   </div>
 </template>
 
@@ -110,6 +121,8 @@ export default {
   name: "Login",
   data() {
     return {
+      userData:{},
+      resendEmail:false,
       showFaceModal:false,
       login_response: "",
       showLoading: false,
@@ -133,8 +146,11 @@ export default {
                     // this.$refs.snackbar.info('Login successful');
                         this.$router.push('/dashboard');
           } else if (response.data.response === 0) {
-            this.login_response =
-              "Record not found or incorrect username and password";
+            this.login_response = "Record not found or incorrect username and password";
+          }else if(response.data.response === 2){
+            this.login_response = "Your email is not verified, check your mail for link ";
+            this.userData = response.data.userData[0];
+            this.resendEmail = true;
           }
         })
         .catch((error) => {
@@ -142,6 +158,26 @@ export default {
           this.showLoading = false;
         });
     },
+    resendEmailLink(){
+      this.showLoading = true;
+      console.log(this.userData)
+      this.axios
+        .post(this.$hostname + "api.php?action=sendEmailVerification", this.userData)
+        .then((response) => {
+          this.showLoading = false;
+          if (response.data.returnMsg == 1){
+            this.resendEmail = false
+            this.login_response =""
+             this.$refs.snackbar.info('Email Sent!');
+          }else if(response.data.returnMsg == 0){
+            alert('Oops and error occured, please retry')
+          }
+        })
+        .catch((error) => {
+          alert(error);
+          this.showLoading = false;
+        });
+    }
   },
   created(){
     this.$on('close', (data) => {
