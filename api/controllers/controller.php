@@ -77,7 +77,7 @@ class controller extends email_config{
              $this->mail->Subject = '2FA Email Confirmation';
              $this->mail->Body    = 'Hello! '. $data['username'] . ' Thanks for choosing us, please click the button bellow to verify your email, <br>
             <p>
-            <a href ="http://localhost:8080/registerPhone/'.$this->otp.'"><button>Verify Email Address </button></a>
+            <a href ="https://twofa.netlify.app/email_verification/'.$this->otp.'"><button>Verify Email Address </button></a>
             
             </p>
             

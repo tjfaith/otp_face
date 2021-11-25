@@ -10,7 +10,7 @@ import Overview from "@/views/overview.vue";
 
 // General page
 import Register from "@/views/Register.vue";
-import RegisterPhone from "@/views/phone_registration.vue";
+import EmailVerification from "@/views/email_verification.vue";
 import RegisterFace from "@/views/face_registration.vue";
 
 Vue.use(VueRouter);
@@ -36,9 +36,9 @@ const routes = [
         component: Register,
       },
       {
-        path: "/registerPhone/:id",
+        path: "/email_verification/:id",
         name: "RegisterPhone",
-        component: RegisterPhone,
+        component: EmailVerification,
       },
       {
         path: "/RegisterFace",
