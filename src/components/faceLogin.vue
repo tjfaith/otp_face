@@ -15,6 +15,7 @@
           ×
         </button>
         <!-- START OF CONTENT -->
+        <slot/>
         <div  class="web-camera-container">
       <div class="camera-button">
         <button
@@ -135,7 +136,11 @@ export default {
   },
   methods: {
     close() {
-        this.restCamera();
+       try {
+         this.restCamera()
+       }catch(error) {
+         console.log(error)
+       }
       this.$emit("close");
     },
     restCamera(){
