@@ -60,7 +60,7 @@ class controller extends email_config{
                 }
             }
         }
-       $this->responseMessage(array('response'=>$respons));
+       $this->responseMessage(array('response'=>$respons, 'userData'=>$userData));
     }
 
     private function sendEmailVerification ($data){
@@ -105,13 +105,20 @@ class controller extends email_config{
         }
         $this->responseMessage(array('response'=>$verifyOTP, 'userEmail'=>$userEmail));
     }
-    
+     public function get_user_info($data)
+    {
+       $userData = users::where('email', $data['userEmail'])->get();
+       if($userData){
+        $this->responseMessage($userData);
+       }
+    }
     public function save_image($data){
         $saveUserImage = users::where('email',$data['email'])->update([
             'userImage' =>  $data['webcamImage'],
+            'face_id'   =>  $data['face_id']
         ]);
         if( $saveUserImage){
-            json_encode($this->responseMessage(array('response'=>'saved')));
+            $this->responseMessage(array('response'=>'saved'));
         }
     }
 

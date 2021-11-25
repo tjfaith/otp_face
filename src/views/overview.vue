@@ -3,37 +3,14 @@
     <!-- TOP ROW ============================================================== -->
     <div class="row my-3">
       <div class="col-12">
-        <small><b>Analytic Overview</b></small>
+        <small><b>Admin</b></small>
       </div>
     </div>
     <div class="row connect m-2 d-flex flex-wrap">
       <div class="col-md-7 m-3">
-        <h3>Connect and Manage Tutors and Students with Ease.</h3>
-        <small>Manage group activities and courses all in one platform.</small>
-        <div
-          class="
-            mt-4
-            d-flex
-            align-items-center
-            justify-content-between
-          "
-        >
-          <div class="d-flex align-items-center">
-            <img style="width:30px" src="@/assets/images/icon/graduation.png" alt="" />
-            <div class="mx-3">
-              <p class="m-0 p-0"><b>Number of Students</b></p>
-              <small>2343+</small>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center">
-            <img src="@/assets/images/icon/course_big.png" alt="" />
-            <div class="mx-3">
-              <p class="m-0 p-0"><b>Number of Courses</b></p>
-              <small>123+</small>
-            </div>
-          </div>
-        </div>
+        <h1 class="text-5xl">Hello {{userData[0].name.toUpperCase()}}!</h1>
+        <p class="text-3xl">Welcome to your Two Factore Secured Administrative Portal</p>
+        
       </div>
       <div class="col-md-3 d-none d-md-block m-0">
         <img src="@/assets/images/admin/manage.png" alt="" />
@@ -43,7 +20,7 @@
     <!-- BOTTOM ROW =========================================================== -->
     <div class="row mt-4">
       <!-- popular course -->
-      <div class="col-lg-4 col-md-12 col-sm-12 my-2">
+      <div class="col-lg-12 col-md-12 col-sm-12 my-2">
         <div class="p-4 popular_courses">
           <div
             class="sub_card mb-3 p-4 bg-white d-flex flex-row"
@@ -53,64 +30,6 @@
             
             
           </div>
-        </div>
-      </div>
-
-      <!-- Mentors -->
-      <div class="col-lg-4 col-md-12 col-sm-12 my-2 px-2">
-        <div class="p-4 mentors">
-          <h5>Mentors</h5>
-          <div
-            class="sub_card mb-3 p-4 bg-white d-flex"
-            v-for="(mentor, index) in mentors"
-            :key="index"
-          >
-            <div class="w-50 position-relative">
-              <div
-                class="iconImage position-absolute"
-                :style="{ backgroundImage: `url('${mentor.mentor_icon}')` }"
-              ></div>
-            </div>
-            <div class="w-100">
-              <p class="m-0">
-                <b>{{ mentor.mentor_name }}</b>
-              </p>
-              <small>{{ mentor.total_courses }} Course</small>
-            </div>
-          </div>
-          <h6 class="see_more"><a href="#">See more</a></h6>
-        </div>
-      </div>
-
-      <!-- Active Group -->
-      <div class="col-lg-4 col-md-12 col-sm-12 my-2">
-        <div class="p-4 active_group">
-          <h5>Active Groups</h5>
-          <div
-            class="sub_card mb-3 bg-white d-flex"
-            style="padding: 25px"
-            v-for="(activeGroup, index) in activeGroups"
-            :key="index"
-          >
-            <div class="d-flex position-relative w-50">
-              <div
-                v-for="(member_icon, index) in activeGroup.recent_icon"
-                :key="index"
-                class="iconImage position-absolute"
-                :style="{
-                  backgroundImage: `url('${member_icon.icon}')`,
-                  left: index * 25 + 'px',
-                }"
-              ></div>
-            </div>
-            <div class="d-flex flex-column">
-              <p class="m-0">
-                <b>{{ activeGroup.group_title }}</b>
-              </p>
-              <small>{{ activeGroup.total_members }} Members</small>
-            </div>
-          </div>
-          <h6 class="see_more"><a href="#">See more</a></h6>
         </div>
       </div>
     </div>
@@ -212,6 +131,11 @@ export default {
         },
       ],
     };
+  },
+   props: {
+    userData: {
+      type: Array,
+    },
   },
 };
 </script>

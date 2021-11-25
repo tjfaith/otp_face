@@ -1,5 +1,6 @@
 <template>
   <div class="grid place-items-center h-screen  ">
+      <snackbar baseSize="5rem" ref="snackbar" :holdTime="5000" position="top-center"/>
     <div id="app" class="web-camera-container">
       <div class="camera-button">
         <button
@@ -102,6 +103,15 @@ export default {
     };
   },
   methods: {
+    restCamera(){
+      this.isCameraOpen = false;
+        this.isPhotoTaken = false;
+        this.isShotPhoto = false;
+        this.stopCameraStream();
+         this.errorMessage = "";
+         this.message_text_color= "text-red-500"
+         this.scaningImage = false;
+    },
     toggleCamera() {
       if (this.isCameraOpen) {
         this.isCameraOpen = false;
@@ -204,15 +214,32 @@ export default {
                         userData
                       )
                       .then((response) => {
-                        if (response.data.response == "saved") {
+                        console.log(response)
+                        if (response.data.images[0].transaction.status == "success") {
+                          // SAVE IMAGE DATA TO MY DB
+                          userData.face_id = response.data.face_id
+                        this.axios.post(this.$hostname + "api.php?action=save_image", userData)
+                .then((response) => {
+                  if(response.data.response == 'saved'){
                           this.message_text_color = "text-green-500";
+                          this.$refs.snackbar.info('successful');
                           this.errorMessage =
-                            "Image Enrollment was successful. Proceed to Login";
+                            "Image Enrollment was successful. You would be redirected to Login";
                           this.scaningImage = false;
-                          this.toggleCamera();
+                          // this.restCamera();
+                          this.isCameraOpen= false
+                          this.$session.remove('user_email')
                           setTimeout(() => {
                             this.$router.push("/login");
                           }, 3500);
+                  }
+                          })
+                      .catch((error) => {
+                        this.scaningImage = false;
+                        this.toggleCamera();
+                        alert(error);
+                      });
+
                         }
                       })
                       .catch((error) => {

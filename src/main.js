@@ -26,7 +26,7 @@ Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
 // Vue.prototype.$hostname = "http://localhost/webApp/otp_face/api/";
-Vue.prototype.$hostname = "https://www.omedim.com/2fa/api/";
+Vue.prototype.$hostname = "http://www.omedim.com/2fa/api/";
 // Vue.prototype.$hostname = "https://www.eduplus.sch.ng/2fa/api/";
 
 // import components ===============

@@ -89,15 +89,15 @@ if($action == 'enroll_image'){
       "subject_id" => $subject_id,
       "gallery_name" => $gallery_name
   );
-  $kair = $Kairos->enroll($argumentArray);
-  $local = $controllerQuery->save_image($query);
-  $response = json_decode($kair, true);
-  $imageData = array_push ($response, $local);
-  return json_encode($imageData);
-
+  echo $Kairos->enroll($argumentArray);
 }
 
 // KARIOS API ========================================================================END
+if ($action == 'get_user_info'){
+  $query = json_decode(file_get_contents('php://input'),true);
+  return json_encode($controllerQuery->get_user_info($query));
+}
+
 if ($action == 'save_image'){
   $query = json_decode(file_get_contents('php://input'),true);
   return json_encode($controllerQuery->save_image($query));

@@ -7,14 +7,18 @@
           :class="{ toggleSideBar: defaultStyle, toggleSideBar2: closeBar }"
           class="text-center sidebar bg-white px-3"
         >
-          <div class="mb-4 d-none d-block d-md-block">
-            <img class="w-14 h-14" src="@/assets/images/logo.png" />
+          <div class="mb-4 ">
+            <img class="d-none d-md-block w-14 h-14" src="@/assets/images/logo.png" />
+              <div
+              class="profile mx-3 d-block d-md-none"
+              :style="{ backgroundImage: `url('${userData[0].userImage}')` }"
+            ></div>
           </div>
 
           <ul class="d-flex flex-column list-unstyled" style="height: 84vh">
             <li @click="closeSidebarOnClick">
               <router-link
-                to="/admin"
+                to="/dashboard"
                 active-class="active"
                 class="d-flex text-decoration-none"
               >
@@ -38,135 +42,21 @@
               </router-link>
             </li>
 
-            <li @click="closeSidebarOnClick">
+          
+            <li @click="logOut()">
               <router-link
-                to="/admin/student"
+                to="/"
                 class="d-flex text-decoration-none"
               >
-                <div class="w-25 text-left">
-                  <svg
-                    width="24"
-                    height="18"
-                    viewBox="0 0 24 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M22 6L12 2L2 6L12 10L22 6ZM22 6V12"
-                      class="icon"
-                      stroke-width="2.75"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M6 7.59961V12.9996C6 13.7953 6.63214 14.5583 7.75736 15.1209C8.88258 15.6835 10.4087 15.9996 12 15.9996C13.5913 15.9996 15.1174 15.6835 16.2426 15.1209C17.3679 14.5583 18 13.7953 18 12.9996V7.59961"
-                      class="icon"
-                      stroke-width="2.75"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-                <div>Student</div>
+               
+                <div>LOG OUT</div>
               </router-link>
             </li>
 
-            <li @click="closeSidebarOnClick">
-              <router-link
-                to="/admin/content"
-                class="d-flex text-decoration-none"
-              >
-                <div class="w-25">
-                  <svg
-                    width="18"
-                    height="21"
-                    viewBox="0 0 18 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M4.81 0.5H13.191C16.28 0.5 18 2.28 18 5.33V15.66C18 18.76 16.28 20.5 13.191 20.5H4.81C1.77 20.5 0 18.76 0 15.66V5.33C0 2.28 1.77 0.5 4.81 0.5ZM5.08 5.16V5.15H8.069C8.5 5.15 8.85 5.5 8.85 5.929C8.85 6.37 8.5 6.72 8.069 6.72H5.08C4.649 6.72 4.3 6.37 4.3 5.94C4.3 5.51 4.649 5.16 5.08 5.16ZM5.08 11.24H12.92C13.35 11.24 13.7 10.89 13.7 10.46C13.7 10.03 13.35 9.679 12.92 9.679H5.08C4.649 9.679 4.3 10.03 4.3 10.46C4.3 10.89 4.649 11.24 5.08 11.24ZM5.08 15.81H12.92C13.319 15.77 13.62 15.429 13.62 15.03C13.62 14.62 13.319 14.28 12.92 14.24H5.08C4.78 14.21 4.49 14.35 4.33 14.61C4.17 14.86 4.17 15.19 4.33 15.45C4.49 15.7 4.78 15.85 5.08 15.81Z"
-                      class="fill"
-                    />
-                  </svg>
-                </div>
-                <div>Contents</div>
-              </router-link>
-            </li>
 
-            <li @click="closeSidebarOnClick">
-              <router-link
-                to="/admin/courses"
-                class="d-flex text-decoration-none"
-              >
-                <div class="w-25">
-                  <svg
-                    width="20"
-                    height="21"
-                    viewBox="0 0 20 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M8.70435 2.01898C8.03402 2.01898 7.46373 2.4848 7.30365 3.11265H12.6863C12.5263 2.4848 11.956 2.01898 11.2856 2.01898H8.70435ZM14.2071 3.11264H16.1881C18.2891 3.11264 20 4.84428 20 6.97085C20 6.97085 19.94 7.8711 19.92 9.12477C19.918 9.22401 19.8699 9.32122 19.7909 9.37996C19.3097 9.7354 18.8694 10.0291 18.8294 10.0493C17.1686 11.1632 15.2386 11.947 13.1826 12.3369C13.0485 12.3632 12.9165 12.2934 12.8484 12.1739C12.2721 11.1754 11.1956 10.5253 9.995 10.5253C8.8024 10.5253 7.71586 11.1683 7.12256 12.1678C7.05353 12.2853 6.92346 12.3531 6.7904 12.3278C4.75138 11.9369 2.82141 11.1541 1.17059 10.0594L0.210105 9.39109C0.130065 9.34046 0.08004 9.24932 0.08004 9.14806C0.050025 8.63161 0 6.97085 0 6.97085C0 4.84428 1.71086 3.11264 3.81191 3.11264H5.78289C5.97299 1.6443 7.2036 0.5 8.70435 0.5H11.2856C12.7864 0.5 14.017 1.6443 14.2071 3.11264ZM19.6598 11.3152L19.6198 11.3355C17.5988 12.6924 15.1676 13.5937 12.6163 13.9684C12.2561 14.019 11.8959 13.7861 11.7959 13.4216C11.5758 12.5912 10.8654 12.0443 10.015 12.0443H10.005H9.98499C9.13457 12.0443 8.42421 12.5912 8.2041 13.4216C8.10405 13.7861 7.74387 14.019 7.38369 13.9684C4.83242 13.5937 2.4012 12.6924 0.38019 11.3355C0.370185 11.3254 0.270135 11.2646 0.190095 11.3152C0.10005 11.3659 0.10005 11.4874 0.10005 11.4874L0.170085 16.6519C0.170085 18.7785 1.87094 20.5 3.97199 20.5H16.018C18.1191 20.5 19.8199 18.7785 19.8199 16.6519L19.9 11.4874C19.9 11.4874 19.9 11.3659 19.8099 11.3152C19.7599 11.2849 19.6999 11.295 19.6598 11.3152ZM10.7454 15.5583C10.7454 15.9836 10.4152 16.3177 9.995 16.3177C9.58479 16.3177 9.24462 15.9836 9.24462 15.5583V14.2519C9.24462 13.8367 9.58479 13.4924 9.995 13.4924C10.4152 13.4924 10.7454 13.8367 10.7454 14.2519V15.5583Z"
-                      class="fill"
-                    />
-                  </svg>
-                </div>
-                <div>Courses</div>
-              </router-link>
-            </li>
+           
 
-            <li @click="closeSidebarOnClick">
-              <router-link
-                to="/admin/groups"
-                class="d-flex text-decoration-none"
-              >
-                <div class="w-25">
-                  <svg
-                    width="24"
-                    height="25"
-                    viewBox="0 0 24 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9 11.5C11.2091 11.5 13 9.70914 13 7.5C13 5.29086 11.2091 3.5 9 3.5C6.79086 3.5 5 5.29086 5 7.5C5 9.70914 6.79086 11.5 9 11.5Z"
-                      class="icon"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M3 21.5V19.5C3 18.4391 3.42143 17.4217 4.17157 16.6716C4.92172 15.9214 5.93913 15.5 7 15.5H11C12.0609 15.5 13.0783 15.9214 13.8284 16.6716C14.5786 17.4217 15 18.4391 15 19.5V21.5"
-                      class="icon"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M16 3.63086C16.8604 3.85116 17.623 4.35156 18.1676 5.05317C18.7122 5.75478 19.0078 6.61769 19.0078 7.50586C19.0078 8.39403 18.7122 9.25694 18.1676 9.95855C17.623 10.6602 16.8604 11.1606 16 11.3809"
-                      class="icon"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M21 21.5004V19.5004C20.9949 18.6175 20.6979 17.7612 20.1553 17.0648C19.6126 16.3684 18.8548 15.8711 18 15.6504"
-                      class="icon"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-                <div>Groups</div>
-              </router-link>
-            </li>
+          
             <li class="mt-auto" @click="closeSidebarOnClick">
               <router-link
                 to="/admin/settings"
@@ -225,7 +115,7 @@
             <img src="@/assets/images/icon/Notification.png" />
             <div
               class="profile mx-3"
-              :style="{ backgroundImage: `url('${userData.icon}')` }"
+              :style="{ backgroundImage: `url('${userData[0].userImage}')` }"
             ></div>
           </div>
         </div>
@@ -277,20 +167,20 @@
         </div>
         <!-- main content -->
         <div class="main_content">
-          <router-view />
+          <router-view :userData=userData />
         </div>
       </div>
     </div>
   </div>
+        <!-- // icon: require("@/assets/images/user/user_icon.jpeg"), -->
+
 </template>
 
 <script>
 export default {
   data() {
     return {
-      userData: {
-        icon: require("@/assets/images/user/user_icon.jpeg"),
-      },
+      userData: {},
       closeBar: false,
       defaultStyle: true,
     };
@@ -306,7 +196,31 @@ export default {
         this.defaultStyle = true;
       }
     },
+    getUserInfo(){
+      if (this.$session.has('user_email')){
+
+       this.axios
+                .post(this.$hostname + "api.php?action=get_user_info", {userEmail: this.$session.get('user_email')}).then((response) => {
+                    console.log(response)
+                    this.userData = response.data
+         }).catch((error) => {
+                  this.scaningImage = false;
+                  this.toggleCamera();
+                  alert(error);
+                });
+      }else{
+        this.$router.push('/')
+      }
+
+    },
+    logOut(){
+      this.$session.remove('user_email')
+      window.location('/')
+    }
   },
+  created(){
+    this.getUserInfo()
+  }
 };
 </script>
 

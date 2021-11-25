@@ -97,6 +97,8 @@
         ></loader>
       </div>
     </div>
+      <snackbar baseSize="5rem" ref="snackbar" :holdTime="5000" position="top-center"/>
+
         <!-- END OF CONTENT -->
       </div>
     </div>
@@ -254,9 +256,12 @@ export default {
                   } else if (  response.data.images[0].transaction.status == "success" ) {
                     this.restCamera();
                     this.isLoading = true
-                     setTimeout(() => {
+                    this.$session.start()
+                    this.$session.set('user_email', response.data.images[0].transaction.subject_id)
+                    this.$refs.snackbar.info('Login successful');
+                    //  setTimeout(() => {
                         this.$router.push('/dashboard');
-                      }, 3500);
+                    //   }, 3500);
                     
                   }
                 })
