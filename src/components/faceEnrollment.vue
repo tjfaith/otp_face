@@ -199,7 +199,7 @@ export default {
 
               // CHECK IF IMAGE ALREADY EXIST
               this.axios
-                .post(this.$hostname + "api.php?action=check_image", userData)
+                .post(this.$hostname + "api.php?action=remove_image_subject", userData)
                 .then((response) => {
                   this.scaningImage = false;
                   this.toggleCamera();
