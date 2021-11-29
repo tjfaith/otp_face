@@ -53,10 +53,18 @@ $argumentArray =  array(
 echo $Kairos->viewSubjectsInGallery($argumentArray);
 }
 
+if($action == 'remove_gallery'){
+$gallery_name = 'yabatech';
+$argumentArray =  array(
+    "gallery_name" => $gallery_name 
+);
+echo $Kairos->removeGallery($argumentArray);
+}
+
 if($action == 'remove_image_subject'){
 
   $query = json_decode(file_get_contents('php://input'),true);
- $subject_id = $query['email'];
+ $subject_id = 'tjbenbiz@gmail.com';
 $gallery_name = 'yabatech';
 $argumentArray =  array(
     "subject_id" => $subject_id,

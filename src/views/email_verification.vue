@@ -43,6 +43,7 @@ export default {
           console.log(response.data.response)
           this.$session.start()
           this.$session.set('user_email', response.data.userEmail[0].email)
+          console.log(this.$session.get('user_email'))
             this.$refs.snackbar.info('Email Verification successful');
             this.otp_verification_fail = response.data.response
           }else{

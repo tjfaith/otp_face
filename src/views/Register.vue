@@ -153,7 +153,12 @@
     </form>
      <div v-else-if="signUpSuccess == true" class="text-center">
       <span><b>Sign Up successful, Check your email for verification link</b> <br> 
-      <br><b  class="text-red-500">Due to some reasons messages might enter SPAM folder, check there if you can't find link in mmain inbox</b>
+      <br><b  class="text-red-500">Due to some reasons messages might enter SPAM folder, check there if you can't find link in main inbox</b>
+      </span>
+    </div>
+       <div v-else-if="signUpSuccess == false" class="text-center">
+         <span class="text-green-500"><b>Sign up Successful</b></span><br>
+      <span><b  class="text-red-500">Oops! an error occured sending email, Try to login to resend email</b>
       </span>
     </div>
   </div>

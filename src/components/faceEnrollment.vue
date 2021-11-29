@@ -1,12 +1,27 @@
 <template>
-  <div class="grid place-items-center h-screen  ">
-      <snackbar baseSize="5rem" ref="snackbar" :holdTime="5000" position="top-center"/>
+  <div class="grid place-items-center h-screen">
+    <snackbar
+      baseSize="5rem"
+      ref="snackbar"
+      :holdTime="5000"
+      position="top-center"
+    />
     <div id="app" class="web-camera-container">
       <div class="camera-button">
         <button
           v-if="!isCameraOpen"
           type="button"
-          class="bg-tfa_primary text-white button is-rounded rounded-full h-24 w-24 flex items-center"
+          class="
+            bg-tfa_primary
+            text-white
+            button
+            is-rounded
+            rounded-full
+            h-24
+            w-24
+            flex
+            items-center
+          "
           :class="{ 'is-primary': !isCameraOpen, 'is-danger': isCameraOpen }"
           @click="toggleCamera"
         >
@@ -103,14 +118,12 @@ export default {
     };
   },
   methods: {
-    restCamera(){
+    restCamera() {
       this.isCameraOpen = false;
-        this.isPhotoTaken = false;
-        this.isShotPhoto = false;
-        this.stopCameraStream();
-         this.errorMessage = "";
-         this.message_text_color= "text-red-500"
-         this.scaningImage = false;
+      this.isPhotoTaken = false;
+      this.isShotPhoto = false;
+      this.stopCameraStream();
+      this.scaningImage = false;
     },
     toggleCamera() {
       if (this.isCameraOpen) {
@@ -171,11 +184,51 @@ export default {
       this.downloadImage();
     },
 
+    enrollImage(userData) {
+      this.axios
+        .post(this.$hostname + "api.php?action=enroll_image", userData)
+        .then((response) => {
+          console.log(response)
+          if (response.data.images[0].transaction.status == "success") {
+            // SAVE IMAGE DATA TO MY DB
+            userData.face_id = response.data.face_id;
+            userData.imageProperty =response.data.images[0].attributes
+            this.axios
+              .post(this.$hostname + "api.php?action=save_image", userData)
+              .then((response) => {
+                if (response.data.response == "saved") {
+                  this.restCamera()
+                  this.message_text_color = "text-green-500";
+                  this.$refs.snackbar.info("successful");
+                  this.errorMessage = "Image Enrollment was successful. You would be redirected to Login";
+                  this.$session.remove("user_email");
+                  setTimeout(() => {
+                    this.errorMessage =""
+                    this.message_text_color = "text-red-500";
+                    this.$router.push("/login");
+                  }, 3000);
+                }
+              })
+              .catch((error) => {
+                this.errorMessage =""
+                    this.message_text_color = "text-red-500";
+                this.restCamera()
+                alert(error);
+              });
+          }
+        })
+        .catch((error) => {
+          this.errorMessage =""
+           this.message_text_color = "text-red-500";
+          this.restCamera()
+          alert(error);
+        });
+    },
     downloadImage() {
       this.scaningImage = true;
       //   const download = document.getElementById("downloadPhoto");
       this.canvas = document
-        .getElementById("photoTaken")
+        .getElementById("photoTaken")  
         .toDataURL("image/jpeg")
         .replace("image/jpeg", "image/octet-stream");
       //   download.setAttribute("href", canvas);
@@ -187,7 +240,7 @@ export default {
         .then((response) => {
           this.scaningImage = false;
           if (response.data.Errors) {
-            this.toggleCamera();
+                      this.restCamera()
             this.errorMessage = response.data.Errors[0].Message;
           } else if (response.data.images) {
             if (Object.keys(response.data.images).length == 1) {
@@ -201,73 +254,43 @@ export default {
               this.axios
                 .post(this.$hostname + "api.php?action=check_image", userData)
                 .then((response) => {
-                  this.scaningImage = false;
-                  this.toggleCamera();
-                  if (
+                  console.log(response);
+                   if (response.data.Errors !== undefined) {
+                     if(response.data.Errors[0].ErrCode == 5004){
+                      // ENROLL IMAGE
+
+                       this.enrollImage(userData);
+                     }
+                    
+                   
+                  } else if (
                     response.data.images[0].transaction.message ==
                     "no match found"
                   ) {
-                    // ENROLL IMAGE
-                    this.axios
-                      .post(
-                        this.$hostname + "api.php?action=enroll_image",
-                        userData
-                      )
-                      .then((response) => {
-                        console.log(response)
-                        if (response.data.images[0].transaction.status == "success") {
-                          // SAVE IMAGE DATA TO MY DB
-                          userData.face_id = response.data.face_id
-                        this.axios.post(this.$hostname + "api.php?action=save_image", userData)
-                .then((response) => {
-                  if(response.data.response == 'saved'){
-                          this.message_text_color = "text-green-500";
-                          this.$refs.snackbar.info('successful');
-                          this.errorMessage =
-                            "Image Enrollment was successful. You would be redirected to Login";
-                          this.scaningImage = false;
-                          // this.restCamera();
-                          this.isCameraOpen= false
-                          this.$session.remove('user_email')
-                          setTimeout(() => {
-                            this.$router.push("/login");
-                          }, 3500);
-                  }
-                          })
-                      .catch((error) => {
-                        this.scaningImage = false;
-                        this.toggleCamera();
-                        alert(error);
-                      });
-
-                        }
-                      })
-                      .catch((error) => {
-                        this.scaningImage = false;
-                        this.toggleCamera();
-                        alert(error);
-                      });
+                    //   // ENROLL IMAGE
+                    this.enrollImage(userData);
                   } else if (
                     response.data.images[0].transaction.status == "success"
                   ) {
-                    this.scaningImage = false;
-                    // this.toggleCamera()
+          this.restCamera()
                     this.errorMessage =
                       "Ops! user Image found, Login instead, or Open Camera to re scan image";
                   }
                 })
                 .catch((error) => {
+                  alert("error from here");
                   this.scaningImage = false;
                   this.toggleCamera();
                   alert(error);
                 });
             } else if (Object.keys(response.data.images).length > 1) {
-              this.toggleCamera();
+                        this.restCamera()
               this.errorMessage = "More than one face found, please re-cature";
             }
           } else {
             //   this.isCameraOpen =false
-            this.toggleCamera();
+                      this.restCamera()
+
             this.errorMessage = "An error occured, re-capture";
           }
         })

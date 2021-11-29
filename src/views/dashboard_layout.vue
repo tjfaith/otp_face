@@ -205,7 +205,6 @@ export default {
                     this.userData = response.data
          }).catch((error) => {
                   this.scaningImage = false;
-                  this.toggleCamera();
                   alert(error);
                 });
       }else{
@@ -215,10 +214,11 @@ export default {
     },
     logOut(){
       this.$session.remove('user_email')
-      window.location('/')
+              this.$router.push('/')
+
     }
   },
-  created(){
+  mounted(){
     this.getUserInfo()
   }
 };

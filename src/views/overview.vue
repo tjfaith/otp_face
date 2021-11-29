@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-4" v-else>
       <!-- popular course -->
       <div class="col-lg-12 col-md-12 col-sm-12 my-2">
         <div class="p-4 popular_courses">
@@ -45,8 +45,60 @@
             class="sub_card mb-3 p-4 bg-white d-flex flex-row"
             
           >
-          <!-- <h1>Your information from your facial look</h1><br> -->
-            {{this.$session.get('facial_details').images[0].transaction}}
+          <table class="table table-striped table-dark -w-full divide-y divide-gray-200">
+  <thead class="" >
+<tr>
+      <th>ATTRIBUTE</th>
+      <th>PROPERTY</th>
+    </tr>
+  </thead>
+  <tbody  style="text-transform:UPPERCASE">
+    <tr>
+      <td>AGE</td>
+      <td>{{userData[0].age}}</td>
+    </tr>
+     <tr>
+      <td>ASIAN</td>
+      <td>{{userData[0].asian}}</td>
+    </tr>
+    <tr>
+      <td>black</td>
+      <td>{{userData[0].black}}</td>
+    </tr>
+    <tr>
+      <td>femaleConfidence</td>
+      <td>{{userData[0].femaleConfidence}}</td>
+    </tr>
+    <tr>
+      <td>maleConfidence</td>
+      <td>{{userData[0].maleConfidence}}</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>{{userData[0].type}}</td>
+    </tr>
+     <tr>
+      <td>glasses</td>
+      <td>{{userData[0].glasses}}</td>
+    </tr>
+     <tr>
+      <td>hispanic</td>
+      <td>{{userData[0].hispanic}}</td>
+    </tr>
+     <tr>
+      <td>lips</td>
+      <td>{{userData[0].lips}}</td>
+    </tr>
+     <tr>
+      <td>white</td>
+      <td>{{userData[0].white}}</td>
+    </tr>
+    
+  </tbody>
+</table>
+          <!-- <h1>Your information from your facial look</h1><br>
+            {{userData[0]}} -->
+
           </div>
         </div>
       </div>

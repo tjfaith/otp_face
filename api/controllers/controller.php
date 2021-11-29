@@ -118,7 +118,7 @@ class controller extends email_config{
             ]);
         }
         $this->responseMessage(array('response'=>$verifyOTP, 'userEmail'=>$userEmail));
-    }
+    } 
      public function get_user_info($data)
     {
        $userData = users::where('email', $data['userEmail'])->get();
@@ -129,7 +129,18 @@ class controller extends email_config{
     public function save_image($data){
         $saveUserImage = users::where('email',$data['email'])->update([
             'userImage' =>  $data['webcamImage'],
-            'face_id'   =>  $data['face_id']
+            'face_id'   =>  $data['face_id'],
+            'age'       =>  $data['imageProperty']['age'],
+            'asian'       =>  $data['imageProperty']['asian'],
+            'black'       =>  $data['imageProperty']['black'],
+            'femaleConfidence'       =>  $data['imageProperty']['gender']['femaleConfidence'],
+            'maleConfidence'       =>  $data['imageProperty']['gender']['maleConfidence'],
+            'type'       =>  $data['imageProperty']['gender']['type'],
+            'glasses'       =>  $data['imageProperty']['glasses'],
+            'hispanic'       =>  $data['imageProperty']['hispanic'],
+            'lips'       =>  $data['imageProperty']['lips'],
+            'other'       =>  $data['imageProperty']['other'],
+            'white'       =>  $data['imageProperty']['white'],
         ]);
         if( $saveUserImage){
             $this->responseMessage(array('response'=>'saved'));

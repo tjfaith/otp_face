@@ -143,7 +143,7 @@ export default {
           if (response.data.response === 1) {
             this.$session.start()
                     this.$session.set('user_email', response.data.userData[0].email)
-                    // this.$refs.snackbar.info('Login successful');
+                    this.$refs.snackbar.info('Login successful');
                         this.$router.push('/dashboard');
           } else if (response.data.response === 0) {
             this.login_response = "Record not found or incorrect username and password";

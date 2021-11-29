@@ -139,9 +139,12 @@ export default {
   methods: {
     close() {
        try {
-         this.restCamera()
+         this.errorMessage = "";
+         this.message_text_color= "text-red-500";
        }catch(error) {
          console.log(error)
+         this.errorMessage = "";
+         this.message_text_color= "text-red-500";
        }
       this.$emit("close");
     },
@@ -150,8 +153,6 @@ export default {
         this.isPhotoTaken = false;
         this.isShotPhoto = false;
         this.stopCameraStream();
-         this.errorMessage = "";
-         this.message_text_color= "text-red-500"
          this.scaningImage = false;
     },
     toggleCamera() {
@@ -220,8 +221,7 @@ export default {
         .getElementById("photoTaken")
         .toDataURL("image/jpeg")
         .replace("image/jpeg", "image/octet-stream");
-      //   download.setAttribute("href", canvas);
-      //   console.log(canvas)
+ 
       this.axios
         .post(this.$hostname + "api.php?action=detect_image", {
           image: this.canvas,
@@ -239,48 +239,59 @@ export default {
               };
 
               // CHECK IF IMAGE ALREADY EXIST
+              // remove_image_subject
+              // check_image
+              // view_all_sbubject
               this.axios
-                .post(this.$hostname + "api.php?action=check_image", userData)
+                .post(this.$hostname + "api.php?action=remove_image_subject", userData)
                 .then((response) => {
-                  
-                  // this.scaningImage = false;
-                  // this.toggleCamera();
-                  if ( response.data.images[0].transaction.message == "no match found" ) 
+                  console.log(response)
+                   if (response.data.Errors !== undefined) {
+                     if(response.data.Errors[0].ErrCode == 5004){
+                        this.restCamera();
+                     this.errorMessage = "Data not found, Sign up to enroll Image";
+                     }
+                    
+                   }else if ( response.data.images[0].transaction.message == "no match found" ) 
                   {
-                  //  this.scaningImage = false;
                    this.restCamera();
-                    this.errorMessage =
-                      "Data not found, Sign up to enroll Image";
-
-                  } else if (  response.data.images[0].transaction.status == "success" ) {
+                    this.errorMessage = "Data not found, Sign up to enroll Image";
+                  }
+                   else if (  response.data.images[0].transaction.status == "success" ) {
+                    console.log(response.data)
                     this.restCamera();
                     this.isLoading = true
                     this.$session.start()
                     this.$session.set('user_email', response.data.images[0].transaction.subject_id)
-                    this.$session.set('facial_details', response.data);
+                    // this.$session.set('facial_details', response.data);
                     this.$refs.snackbar.info('Login successful');
                     //  setTimeout(() => {
                         this.$router.push('/dashboard');
+                    this.errorMessage = "";
+                    this.message_text_color= "text-red-500";
+
                     //   }, 3500);
                     
                   }
                 })
                 .catch((error) => {
-                  this.toggleCamera();
+                  this.restCamera();
                   alert(error);
                 });
             } else if (Object.keys(response.data.images).length > 1) {
-              this.toggleCamera();
+            this.restCamera();
               this.errorMessage = "More than one face found, please re-cature";
             }
           } else {
             //   this.isCameraOpen =false
-            this.toggleCamera();
+          this.restCamera();
             this.errorMessage = "An error occured, re-capture";
           }
         })
         .catch((error) => {
-          this.toggleCamera();
+           this.errorMessage = "";
+                    this.message_text_color= "text-red-500";
+            this.restCamera();
           alert(error);
         });
     },
