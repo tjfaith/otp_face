@@ -243,7 +243,7 @@ export default {
               // check_image
               // view_all_sbubject
               this.axios
-                .post(this.$hostname + "api.php?action=remove_image_subject", userData)
+                .post(this.$hostname + "api.php?action=check_image", userData)
                 .then((response) => {
                   console.log(response)
                    if (response.data.Errors !== undefined) {
