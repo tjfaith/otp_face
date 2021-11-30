@@ -242,7 +242,7 @@ export default {
               // remove_image_subject
               // check_image
               // view_all_sbubject
-              this.axios
+              this.axios 
                 .post(this.$hostname + "api.php?action=check_image", userData)
                 .then((response) => {
                   console.log(response)
@@ -272,6 +272,9 @@ export default {
 
                     //   }, 3500);
                     
+                  }else {
+                    this.restCamera();
+                    this.errorMessage = "An error occured, re-capture";
                   }
                 })
                 .catch((error) => {
