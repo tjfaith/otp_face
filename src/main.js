@@ -25,9 +25,15 @@ Vue.use(IconsPlugin)
 // Importing the global file 
 
 Vue.config.productionTip = false
-// Vue.prototype.$hostname = "http://localhost/webApp/otp_face/api/";
-// Vue.prototype.$hostname = "http://www.omedim.com/twofa/api/";
-Vue.prototype.$hostname = "https://www.eduplus.sch.ng/tfa/api/";
+
+// this code is for backend api, it points to where the backend is hosted
+// console.log(window.location.protocol+'//'+window.location.hostname+':'+window.location.port)
+Vue.prototype.$currentLocation = window.location.protocol+'//'+window.location.hostname+':'+window.location.port
+if(window.location.hostname == 'localhost'){
+  Vue.prototype.$hostname = "http://localhost/webApp/otp_face/api/";
+}else if(window.location.hostname == 'twofa.netlify.app'){
+  Vue.prototype.$hostname = "https://www.eduplus.sch.ng/tfa/api/";
+}
 
 // import components ===============
 import header from '@/components/header.vue'

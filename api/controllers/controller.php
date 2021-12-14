@@ -37,7 +37,8 @@ class controller extends email_config{
             'updated_at'        => date('Y-m-d H:i:s')
             ]);
         if ($reg){
-            $this->sendEmailVerification($data);
+            $this->responseMessage(array('otp'=>$this->otp, 'success'=>'true'));
+            // $this->sendEmailVerification($data);
         }
     }
 
@@ -73,26 +74,26 @@ class controller extends email_config{
             'otp'  => $this->otp,
         ]);
         if($updateOTP ){
-            $this->sendEmailVerification($data);
+            $this->responseMessage(array('otp'=>$this->otp, 'success'=>'true'));
+            // $this->sendEmailVerification($data);
         }
     }
 
-    private function sendEmailVerification ($data){
+    public function sendEmailVerification ($data){
             
             //Sender
              $this->mail->setFrom('2faauthsystem@gmail.com', '2FA Auth System');
 
             //Recever
-             $this->mail->addReplyTo($data['email']);
-             $this->mail->addAddress($data['email'], $data['username']);     // Add a recipient
+             $this->mail->addReplyTo('2faauthsystem@gmail.com');
+             $this->mail->addAddress($data['userData']['email'], $data['userData']['username']); // Add a recipient
             
             // Content
              $this->mail->isHTML(true);                                  // Set email format to HTML
              $this->mail->Subject = '2FA Email Confirmation';
-             $this->mail->Body    = 'Hello! '. $data['username'] . ' Thanks for choosing us, please click the button bellow to verify your email, <br>
+             $this->mail->Body    = 'Hello! '. $data['userData']['username'] . ' Thanks for choosing us, please click the button bellow to verify your email, <br>
             <p>
-            <a href ="https://twofa.netlify.app/email_verification/'.$this->otp.'"><button>Verify Email Address </button></a>
-            
+            <a href ="'.$data['redirectURL'].'/email_verification/'.$data['otp'].'"><button>Verify Email Address </button></a>            
             </p>
             
             ';

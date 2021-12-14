@@ -164,14 +164,37 @@ export default {
       this.axios
         .post(this.$hostname + "api.php?action=resendOtp", this.userData)
         .then((response) => {
-          this.showLoading = false;
-          if (response.data.returnMsg == 1){
-            this.resendEmail = false
-            this.login_response =""
-             this.$refs.snackbar.info('Email Sent!');
-          }else if(response.data.returnMsg == 0){
-            alert('Oops and error occured, please retry')
+           if (response.data.success == 'true'){
+             let emailData ={
+              'otp': response.data.otp,
+              'userData':this.userData,
+              'redirectURL':this.$currentLocation
+            }
+             this.axios.post("https://www.eduplus.sch.ng/tfa/api/api.php?action=sendEmailVerification",emailData).then((emailResponse)=>{
+               console.log(emailResponse)
+               this.showLoading = false;
+              if (emailResponse.data.returnMsg == 1){
+                this.resendEmail = false
+                this.login_response =""
+                this.$refs.snackbar.info('Email Sent!');
+              }else if(emailResponse.data.returnMsg == 0){
+                alert('Oops and error occured, please retry')
+              }
+
+               }).catch((error)=>{
+              alert(error);
+              this.showLoading = false;
+            })
+              
+           }else{
+             this.showLoading = false;
+            alert('Sorry an Error occured!')
           }
+
+         
+
+
+
         })
         .catch((error) => {
           alert(error);

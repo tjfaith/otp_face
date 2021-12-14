@@ -199,13 +199,29 @@ export default {
       this.axios
         .post(this.$hostname + "api.php?action=register", this.registrationData)
         .then((response) => {
-          console.log(response)
-          this.showLoading = false;
-          if (response.data.returnMsg == 1){
-            this.signUpSuccess = true
-          }else if(response.data.returnMsg == 0){
-            this.signUpSuccess = false
+          if (response.data.success == 'true'){
+            let emailData ={
+              'otp': response.data.otp,
+              'userData':this.registrationData,
+              'redirectURL':this.$currentLocation
+            }
+            this.axios.post("https://www.eduplus.sch.ng/tfa/api/api.php?action=sendEmailVerification",emailData).then((emailResponse)=>{
+                if (emailResponse.data.returnMsg == 1){
+                   this.showLoading = false;
+                this.signUpSuccess = true
+              }else if(emailResponse.data.returnMsg == 0){
+                this.signUpSuccess = false
+                 this.showLoading = false;
+              }
+            }).catch((error)=>{
+              alert(error);
+              this.showLoading = false;
+            })
+          }else{
+             this.showLoading = false;
+            alert('Sorry an Error occured!')
           }
+        
         })
         .catch((error) => {
           alert(error);
@@ -214,7 +230,6 @@ export default {
     },
 
     confirmUsername() {
-      
       this.axios
         .post(this.$hostname + "api.php?action=checkUsername", {'username':this.registrationData.username})
         .then((response) => {

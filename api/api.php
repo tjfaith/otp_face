@@ -114,6 +114,8 @@ if($action == 'enroll_image'){
 }
 
 // KARIOS API ========================================================================END
+
+
 if ($action == 'get_user_info'){
   $query = json_decode(file_get_contents('php://input'),true);
   return json_encode($controllerQuery->get_user_info($query));
@@ -139,3 +141,8 @@ if ($action == 'checkEmail'){
   return json_encode($controllerQuery->checkEmail($query));
 }
 
+// Api to send email
+if($action == 'sendEmailVerification'){
+  $query = json_decode(file_get_contents('php://input'),true);
+  return json_encode($controllerQuery->sendEmailVerification($query));
+}
