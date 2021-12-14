@@ -171,6 +171,7 @@ export default {
               'redirectURL':this.$currentLocation
             }
              this.axios.post("https://www.eduplus.sch.ng/tfa/api/api.php?action=sendEmailVerification",emailData).then((emailResponse)=>{
+              console.log(emailResponse)
               if (emailResponse.data.returnMsg == 1){
                    this.showLoading = false;
                 this.resendEmail = false
