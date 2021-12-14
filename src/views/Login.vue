@@ -171,13 +171,13 @@ export default {
               'redirectURL':this.$currentLocation
             }
              this.axios.post("https://www.eduplus.sch.ng/tfa/api/api.php?action=sendEmailVerification",emailData).then((emailResponse)=>{
-               console.log(emailResponse)
-               this.showLoading = false;
               if (emailResponse.data.returnMsg == 1){
+                   this.showLoading = false;
                 this.resendEmail = false
                 this.login_response =""
                 this.$refs.snackbar.info('Email Sent!');
               }else if(emailResponse.data.returnMsg == 0){
+                   this.showLoading = false;
                 alert('Oops and error occured, please retry')
               }
 
