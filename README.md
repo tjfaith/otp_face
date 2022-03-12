@@ -20,5 +20,11 @@ yarn build
 yarn lint
 ```
 
+### Live site 
+```
+https://twofa.netlify.app/
+
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
